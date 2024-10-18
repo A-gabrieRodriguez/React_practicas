@@ -50,6 +50,14 @@ const App = () => {
             </Button>
           </div>
         </Card >
+        <Card>
+          <ul>
+            {
+              usuarios.map(usuarios => 
+              <li key={usuarios.email} >{`${usuarios.name} ${usuarios.lastname}: ${usuarios.email}`}</li>
+              )}
+          </ul>
+        </Card>
       </Container>
     </form>
   );
