@@ -24,7 +24,7 @@ const validate = values => {
   //validando el campo edad
   if (!values.age) {
     errors.age = 'La edad es requerida';
-  } else if (values.age > 10) {
+  } else if (values.age < 10) {
     errors.age = 'La edad debe ser mayor a 10';
   }
 
@@ -52,7 +52,8 @@ function App() {
     //values es un objeto con los valores de los inputs
     onSubmit: values => {
       console.log(values)
-    },validate
+    }, validate //llamando a la funcion de validacion
+
     /*  al crear esta funcion dentro de useFormik, se ejecuta cada vez que se cambia el valor de un input
         por eso es necesario crear una funcion adicional para validar los campos y que se ejecute solo al 
         ser llamada, es decir cuando se envia el formulario o se hace click en un boton
@@ -83,31 +84,34 @@ function App() {
       <input
         name="name"
         type="text"
+        onBlur={formik.handleBlur}
         onChange={formik.handleChange}
         values={formik.values.name}
       />
       {/*si formik.errors.name existe, entonces se muestra el error*/}
-      {formik.errors.name ? <div>{formik.errors.name}</div> : null}
+      {formik.touched.name && formik.errors.name ? <div>{formik.errors.name}</div> : null}
       <br />
       <label>Email</label>
       <input
         name="email"
         type="text"
+        onBlur={formik.handleBlur}
         onChange={formik.handleChange}
         values={formik.values.email}
       />
       {/*validando el campo de email*/}
-      {formik.errors.email ? <div>{formik.errors.email}</div> : null}
+      {formik.touched.email && formik.errors.email ? <div>{formik.errors.email}</div> : null}
       <br />
       <label>Edad</label>
       <input
         name="age"
         type="text"
+        onBlur={formik.handleBlur}
         onChange={formik.handleChange}
         values={formik.values.age}
       />
       {/*validando el campo de edad*/}
-      {formik.errors.age ? <div>{formik.errors.age}</div>: null}
+      {formik.touched.age && formik.errors.age ? <div>{formik.errors.age}</div> : null}
       <br />
       <button type="submit">Enviar</button>
     </form>
