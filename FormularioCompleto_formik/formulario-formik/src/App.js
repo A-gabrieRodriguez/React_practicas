@@ -1,6 +1,6 @@
 import logo from './logo.svg';
 import './App.css';
-import { useFormik } from 'formik';
+import { Formik, Form, ErrorMessage, Field } from 'formik';
 
 const validate = values => {
   //validate es una funcion que se ejecuta cada vez que se cambia el valor de un input
@@ -34,60 +34,30 @@ const validate = values => {
 }
 
 function App() {
-  //formik es un hook que nos permite manejar el estado de un formulario
-  //y sus validaciones, ademas de poder manejar los eventos de los inputs
-
-  //useFormik recibe un objeto con las propiedades iniciales del formulario
-  //y retorna un objeto con las funciones y propiedades necesarias para manejar el
-  //formulario
-
-  //const formik = useFormik({initialValues: {variable1: 'valor1', variable2: 'valor2'}, funciones y propiedades onsubmit, onchage, etc})
-  const formik = useFormik({
-    initialValues: {
-      name: '',
-      email: '',
-      age: ''
-    },
-    //onSubmit es una funcion que se ejecuta cuando se envia el formulario,
-    //values es un objeto con los valores de los inputs
-    onSubmit: values => {
-      console.log(values)
-    }, validate //llamando a la funcion de validacion
-  })
-
   return (
-    <form onSubmit={formik.handleSubmit}>
-      <label>Producto</label>
-      <input
-        type="text"
-        {...formik.getFieldProps('name')} //se le pasa el nombre del campo
-      //y automaticamente se le asigna el valor y los eventos
-      //onChange,name,value y onBlur
-      />
-      {/*si formik.errors.name existe, entonces se muestra el error*/}
-      {formik.touched.name && formik.errors.name ? <div>{formik.errors.name}</div> : null}
-      <br />
-      <label>Email</label>
-      <input
-        type="text"
-        {...formik.getFieldProps('email')} //se le pasa el nombre del campo
-      //y automaticamente se le asigna el valor y los eventos
-      //onChange,name,value
-      />
-      {/*validando el campo de email*/}
-      {formik.touched.email && formik.errors.email ? <div>{formik.errors.email}</div> : null}
-      <br />
-      <label>Edad</label>
-      <input
-        type="text"
-        {...formik.getFieldProps('age')}
-      />
-      {/*validando el campo de edad*/}
-      {formik.touched.age && formik.errors.age ? <div>{formik.errors.age}</div> : null}
-      <br />
-      <button type="submit">Enviar</button>
-    </form>
-  );
+    <Formik
+      initialValues={{ name: '', email: '', age: '' }}
+      validate={validate}
+      onSubmit={values => console.log(values)}
+    >
+      <Form>
+        <label>nombre</label>
+        <Field name="name" type="text" />
+        <ErrorMessage name="name" />
+        <br />
+        <label>email</label>
+        <Field name="email" type="text" />
+        <ErrorMessage name="email" />
+        <br />
+        <label>edad</label>
+        <Field name="age" type="text" />
+        <ErrorMessage name="age" />
+
+        <button type="submit">Enviar</button>
+      </Form>
+
+    </Formik>
+  )
 }
 
 export default App;
