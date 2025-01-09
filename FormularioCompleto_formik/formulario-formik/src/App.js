@@ -53,62 +53,34 @@ function App() {
     onSubmit: values => {
       console.log(values)
     }, validate //llamando a la funcion de validacion
-
-    /*  al crear esta funcion dentro de useFormik, se ejecuta cada vez que se cambia el valor de un input
-        por eso es necesario crear una funcion adicional para validar los campos y que se ejecute solo al 
-        ser llamada, es decir cuando se envia el formulario o se hace click en un boton
-    
-        //creando la funcion de validate
-        validate: values => {
-          //validate es una funcion que se ejecuta cada vez que se cambia el valor de un input
-          const errors = {};
-    
-          //validamos el campo name
-          if (!values.name) {
-            //creamos una variable de errores que es un objeto vacio
-            errors.name = 'El nombre es requerido';
-          }else if(values.name.length > 15){
-    
-            errors.name = 'El nombre debe tener menos de 15 caracteres';
-          }
-            //retornamos el objeto de errores que se va a mostrar en el formulario
-            //y contiene los errores de validacion
-            return errors;
-          }
-    */
   })
 
   return (
     <form onSubmit={formik.handleSubmit}>
       <label>Producto</label>
       <input
-        name="name"
         type="text"
-        onBlur={formik.handleBlur}
-        onChange={formik.handleChange}
-        values={formik.values.name}
+        {...formik.getFieldProps('name')} //se le pasa el nombre del campo
+      //y automaticamente se le asigna el valor y los eventos
+      //onChange,name,value y onBlur
       />
       {/*si formik.errors.name existe, entonces se muestra el error*/}
       {formik.touched.name && formik.errors.name ? <div>{formik.errors.name}</div> : null}
       <br />
       <label>Email</label>
       <input
-        name="email"
         type="text"
-        onBlur={formik.handleBlur}
-        onChange={formik.handleChange}
-        values={formik.values.email}
+        {...formik.getFieldProps('email')} //se le pasa el nombre del campo
+      //y automaticamente se le asigna el valor y los eventos
+      //onChange,name,value
       />
       {/*validando el campo de email*/}
       {formik.touched.email && formik.errors.email ? <div>{formik.errors.email}</div> : null}
       <br />
       <label>Edad</label>
       <input
-        name="age"
         type="text"
-        onBlur={formik.handleBlur}
-        onChange={formik.handleChange}
-        values={formik.values.age}
+        {...formik.getFieldProps('age')}
       />
       {/*validando el campo de edad*/}
       {formik.touched.age && formik.errors.age ? <div>{formik.errors.age}</div> : null}
